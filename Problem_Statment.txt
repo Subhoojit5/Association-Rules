@@ -1,0 +1,31 @@
+Prepare association rules for the all the data sets 
+1) Try different values of support and confidence. Observe the change in number of rules for different support,confidence values
+2) Change the minimum length in apriori algorithm
+3) Visulize the obtained rules using different plots 
+
+freq_movies_1=apriori(df, min_support=0.1, use_colnames=True)
+freq_movies_1
+
+rule1=association_rules(freq_movies_1, metric='confidence', min_threshold=0.3)
+rule1
+
+rule1.sort_values('lift', ascending=False)
+
+lift_1= rule1[rule1['lift']>=1]
+lift_1
+
+plt.figure(figsize=(15,7))
+plt.scatter(lift_1['support'], lift_1['confidence'])
+plt.xlabel('Support')
+plt.ylabel('Confidence')
+plt.show()
+
+matrix_1=lift_1.pivot('antecedents','consequents','lift')
+matrix_1
+
+plt.figure(figsize=(20,8), dpi=250)
+
+sns.heatmap(matrix_1, annot=True)
+plt.xticks(rotation=90)
+plt.yticks(rotation=0)
+plt.show()
